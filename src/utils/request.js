@@ -22,6 +22,7 @@ instance.interceptors.request.use(config => {
 //  如果本地有token就在头部携带
   const { profile } = store.state.user
   // 判断是否有token
+  console.log(profile.token)
   if (profile.token) {
     // 设置token
     config.headers.Authorization = `Bearer ${profile.token}`
@@ -34,7 +35,7 @@ instance.interceptors.request.use(config => {
 // 响应拦截器
 instance.interceptors.response.use(res => res.data, err => {
   // 401状态码，进入该函数
-  if (err.response && err.response.state === 401) {
+  if (err.response && err.response.status === 401) {
     //  清空本地无效用户信息
     //  跳转到登陆页面
     //  跳转需要传参（当前路由地址）给登陆页码
