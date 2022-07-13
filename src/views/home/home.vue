@@ -11,5 +11,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.container {
+  .hoverShadow();
+  color: @xtxColor;
+}
 
 </style>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/views/Layout'
-import Home from '@/views/home/index'
+import Home from '@/views/home/home'
 
 // 路由规则
 const routes = [
