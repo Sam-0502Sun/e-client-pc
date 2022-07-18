@@ -6,6 +6,11 @@
         <template v-if="item.children">
           <RouterLink v-for="sub in item.children" :key="sub.id" :to="`/category/sub/${sub.id}`">{{ sub.name }}</RouterLink>
         </template>
+        <!-- 骨架 -->
+        <template v-else>
+          <Skeleton width="60px" height="18px" style="margin-right:5px" bg="rgba(255,255,255,0.2)" />
+          <Skeleton width="50px" height="18px" bg="rgba(255,255,255,0.2)" />
+        </template>
       </li>
     </ul>
     <!-- 弹层 -->
@@ -45,9 +50,11 @@
 import { computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { findBrand } from '@/api/home'
+import Skeleton from '@/components/library/skeleton'
 
 export default {
   name: 'HomeCategory',
+  components: { Skeleton },
   setup () {
     const store = useStore()
     //  最终使用数据 = 9个分类 + 1个品牌
@@ -235,6 +242,19 @@ export default {
     .layer {
       display: block;
     }
+  }
+}
+// 骨架效果
+// 骨架组件中的最大容器 xtx-skeleton加上动画
+.xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>
