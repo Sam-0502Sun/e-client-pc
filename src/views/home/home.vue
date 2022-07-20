@@ -36,5 +36,4 @@ export default {
   .hoverShadow();
   color: @xtxColor;
 }
-
 </style>

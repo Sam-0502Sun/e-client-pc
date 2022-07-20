@@ -1,30 +1,37 @@
 <template>
   <div class="home-new">
     <HomePanel title="新鲜好物" sub-title="新鲜出炉 品质靠谱">
-      <template #right ><More path="/" /></template>
+      <template #right>
+        <More path="/" />
+      </template>
       <!-- 面板内容 -->
-      <ul class="goods-list">
-        <li v-for="item in goods" :key="item.id">
-          <RouterLink :to="`/product/${item.id}`">
-            <img :src="item.picture" alt="">
-            <p class="name ellipsis">{{ item.name }}</p>
-            <p class="price">&yen;{{ item.price }}</p>
-          </RouterLink>
-        </li>
-      </ul>
+      <Transition name="fade">
+        <ul v-if="goods.length" class="goods-list">
+          <li v-for="item in goods" :key="item.id">
+            <RouterLink :to="`/product/${item.id}`">
+              <img :src="item.picture" alt="">
+              <p class="name ellipsis">{{ item.name }}</p>
+              <p class="price">&yen;{{ item.price }}</p>
+            </RouterLink>
+          </li>
+        </ul>
+        <HomeSkeleton bg="#f0f9f4" v-else />
+      </Transition>
     </HomePanel>
   </div>
 </template>
 
 <script>
 import HomePanel from './home-panel'
+import HomeSkeleton from './home-skeleton'
 import { ref } from 'vue'
 import { findNew } from '@/api/home'
 
 export default {
   name: 'HomeNew',
   components: {
-    HomePanel
+    HomePanel,
+    HomeSkeleton
   },
   setup () {
     const goods = ref([])

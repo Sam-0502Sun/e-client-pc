@@ -2,7 +2,8 @@
   <div class="home-hot">
     <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
       <!-- 面板内容 -->
-      <ul class="goods-list">
+      <Transition name="fade">
+      <ul v-if="list.length" class="goods-list">
         <li v-for="item in list" :key="item.id">
           <RouterLink to="/">
             <img :src="item.picture" alt="">
@@ -11,6 +12,8 @@
           </RouterLink>
         </li>
       </ul>
+        <HomeSkeleton v-else />
+      </Transition>
     </HomePanel>
   </div>
 </template>
