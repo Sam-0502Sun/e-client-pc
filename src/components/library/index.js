@@ -6,6 +6,8 @@
 import Skeleton from '@/components/library/skeleton'
 import Carousel from '@/components/library/carousel'
 import More from '@/components/library/more'
+import defaultImg from '@/assets/images/200.png'
+import Bread from '@/components/library/bread'
 
 export default {
   install (app) {
@@ -14,5 +16,35 @@ export default {
     app.component(Skeleton.name, Skeleton)
     app.component(Carousel.name, Carousel)
     app.component(More.name, More)
+    app.component(Bread.name, Bread)
+    //  定义指令
+    defineDirective(app)
   }
+}
+
+// 定义指令
+const defineDirective = (app) => {
+//  图片懒加载
+//  原理：现存储图片地址不能在src上，当图片进入可视区，将你存储图片的地址设置给图片元素即可
+  app.directive('lazy', {
+    mounted (el, binding) {
+    //  创建一个观察对象，来观察当前指令的元素
+      const observe = new IntersectionObserver(([{ isIntersecting }]) => {
+        if (isIntersecting) {
+          // 停止观察
+          observe.unobserve(el)
+          observe.observe(el)
+          //  把指令的值设置给el的src属性，binding.value就是指令值
+          // 图片处理加载失败
+          el.onerror = () => {
+          //  加载失败，设置默认值
+            el.src = defaultImg
+          }
+          el.src = binding.value
+        }
+      }, {
+        threshold: 0
+      })
+    }
+  })
 }

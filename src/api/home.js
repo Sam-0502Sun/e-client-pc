@@ -24,3 +24,15 @@ export const findNew = () => {
 export const findHot = () => {
   return request('/home/hot', 'get')
 }
+
+// 获取商品板块
+// return promise
+export const findGoods = () => {
+  return request('/home/goods', 'get')
+}
+
+// 获取最新专题板块
+// return promise
+export const findSpecial = () => {
+  return request('/home/special', 'get')
+}
