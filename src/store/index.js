@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 import cart from './modules/cart'
 import category from './modules/category'
 import user from './modules/user'
-import createPersistedState from 'vuex-persistedstate' // 持久化存储插件
+// 持久化存储插件
+import createPersistedState from 'vuex-persistedstate'
 
 // vue2.0创建仓库 new vuex.Store({})
 // vue3.0创建仓库 createStore({})
@@ -23,6 +24,7 @@ export default createStore({
   },
   // 配置插件
   plugins: [
+    // 状态持久化插件
     // 默认存储在localstorage上
     createPersistedState({
       //  本地存储的名字

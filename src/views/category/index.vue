@@ -2,7 +2,11 @@
   <div class="Top-category">
     <div class="container">
     <!-- 面包屑 -->
-      <Bread parentPath="/category/1005000" parentName="电器">空调</Bread>
+      <Bread>
+        <BreadItem>首页</BreadItem>
+        <BreadItem>电器</BreadItem>
+        <BreadItem>空调</BreadItem>
+      </Bread>
     <!-- 轮播图 -->
     <!-- 全部分类 -->
     <!-- 各个分类推荐商品 -->

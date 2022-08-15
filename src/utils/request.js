@@ -7,7 +7,7 @@ import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
 
-// 导出基准地址，原因是有些地方不是通过axios发送请求的，也需要基准地址
+// 导出基准地址，原因是有些地方不是通过axios发送请求的，也需要基准地址，例如上传图片
 export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 const instance = axios.create({
 //  axios的一些配置, baseURL, timeout
@@ -20,29 +20,32 @@ instance.interceptors.request.use(config => {
 //  拦截的业务逻辑
 //  进行请求配置的修改
 //  如果本地有token就在头部携带
-  const { profile } = store.state.user
+//  获取用户信息对象
+  const profile = store.state.user.profile
   // 判断是否有token
-  console.log(profile.token)
   if (profile.token) {
     // 设置token
     config.headers.Authorization = `Bearer ${profile.token}`
   }
   return config
 }, err => {
+  // 错误的时候返回错误对象，把err传进去
   return Promise.reject(err)
 })
 
 // 响应拦截器
+// res => res.data 取出data数据，将来调用接口的时候直接拿到的就是可用的后台数据（剥离无效层和数据）
 instance.interceptors.response.use(res => res.data, err => {
   // 401状态码，进入该函数
+  // 判断，当err.response存在，并且err.response.status === 401
   if (err.response && err.response.status === 401) {
     //  清空本地无效用户信息
     //  跳转到登陆页面
     //  跳转需要传参（当前路由地址）给登陆页码
     store.commit('user/setUser', {})
     // 当前路由地址
-    // 组件里取完整路由地址：$router.fullPath
-    // js模块中：router.currentRoute.value.fullPath 就是当前路由地址 router.currentRoute 是ref响应式数据,所以需要加上.value
+    // '组件里' 取完整路由地址：`/user?a=10`     $route.path === /user     $router.fullPath === /user?a=10
+    // 'js模块' 中：router.currentRoute.value.fullPath 就是当前路由地址 router.currentRoute 是ref响应式数据,所以需要加上.value
     // encodeURIComponent转换URI编码，浏览器可以识别
     const fullPath = encodeURIComponent(router.currentRoute.value.fullPath)
     router.push('/login?redirectUrl=' + fullPath)
